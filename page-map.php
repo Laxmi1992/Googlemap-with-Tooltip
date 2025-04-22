@@ -1,0 +1,262 @@
+<?php
+/**
+ * Template Name: Map
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages
+ * and that other 'pages' on your WordPress site may use a
+ * different template.
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ *
+ * @package dstheme
+ */
+
+get_header();
+?>
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main">
+<h2>Our Members</h2>
+<div id="map" style="height:100vh;"></div>
+
+<script>
+  // Sample member data
+  const members = [
+    {
+      name: "John Doe",
+      lat: 40.712776,
+      lng: -74.005974,
+      address: "New York, NY",
+      phone: "123-456-7890"
+    },
+    {
+      name: "Jane Smith",
+      lat: 34.052235,
+      lng: -118.243683,
+      address: "Los Angeles, CA",
+      phone: "987-654-3210"
+    }
+  ];
+
+  function initMap() {
+    const center = { lat: 39.8283, lng: -98.5795 }; // Center of USA
+
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 4,
+      center: center,
+      style: [
+    {
+        "featureType": "all",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "saturation": 36
+            },
+            {
+                "color": "#293b44"
+            },
+            {
+                "lightness": 40
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 16
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#fefefe"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#bfd0d9"
+            },
+            {
+                "lightness": 17
+            },
+            {
+                "weight": 1.2
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#f5fafd"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#f5f5f5"
+            },
+            {
+                "lightness": 21
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#c6e5e6"
+            },
+            {
+                "lightness": 21
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#bfd0d9"
+            },
+            {
+                "lightness": 17
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 29
+            },
+            {
+                "weight": 0.2
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#bfd0d9"
+            },
+            {
+                "lightness": 18
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#d0dde4"
+            },
+            {
+                "lightness": 16
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#d6e1e8"
+            },
+            {
+                "lightness": 19
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#d2e4ef"
+            },
+            {
+                "lightness": 17
+            }
+        ]
+    }
+]
+
+    });
+
+    members.forEach(member => {
+      const marker = new google.maps.Marker({
+        position: { lat: member.lat, lng: member.lng },
+        map: map,
+        title: member.name
+      });
+
+      const infoWindow = new google.maps.InfoWindow({
+        content: `
+          <div>
+            <h3>${member.name}</h3>
+            <p>${member.address}</p>
+            <p>${member.phone}</p>
+          </div>
+        `
+      });
+
+      marker.addListener("click", () => {
+        infoWindow.open(map, marker);
+      });
+    });
+  }
+</script>
+
+<!-- Replace YOUR_API_KEY with your actual key -->
+<script async defer
+  src="https://maps.google.com/maps/api/js?sensor=false&callback=initMap">
+</script>
+		</main><!-- #main -->
+	</div><!-- #primary -->
+<div class="testPlaceHolder" style="width: 100%;min-height: 450px;"></div>
+<?php
+get_footer();
